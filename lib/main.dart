@@ -1,7 +1,7 @@
-import 'package:fios/providers/auth.dart';
-import 'package:fios/providers/managers.dart';
-import 'package:fios/providers/notes.dart';
-import 'package:fios/providers/referrals.dart';
+import './providers/auth.dart';
+import './providers/managers.dart';
+import './providers/notes.dart';
+import './providers/referrals.dart';
 
 import 'package:fios/screens/home_screen.dart';
 import 'package:fios/screens/login_screen.dart';
@@ -17,7 +17,7 @@ import 'package:fios/screens/splah_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/referees.dart';
+import './providers/referees.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
           value: Auth(),
         ),
         ChangeNotifierProvider.value(
+          value: Referees(),
+        ),
+        ChangeNotifierProvider.value(
           value: Referrals(),
         ),
         ChangeNotifierProvider.value(
           value: Notes(),
-        ),
-        ChangeNotifierProvider.value(
-          value: Referees(),
         ),
         ChangeNotifierProvider.value(
           value: Managers(),

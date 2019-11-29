@@ -19,7 +19,7 @@ class Referees extends ChangeNotifier {
   Future<void> getReferees() async {
     try {
       http.Response response =
-      await http.get('$kUrl/referee/all', headers: kHeaders);
+          await http.get('$kUrl/referee/all', headers: kHeaders);
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         List<Referee> loadedReferees = [];
@@ -28,13 +28,13 @@ class Referees extends ChangeNotifier {
           loadedReferees.add(referee);
         }
         _referees = loadedReferees;
-
-        notifyListeners();
       }
 
       if (response.statusCode >= 400) {
         throw response.body;
       }
+
+      notifyListeners();
     } catch (e) {
       print(e);
     }
