@@ -33,138 +33,143 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context) {
           return Platform.isIOS
               ? CupertinoAlertDialog(
-            title: Text('Error'),
-            content: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(msg),
-            ),
-            actions: <Widget>[
-              CupertinoButton(
-                child: Text(
-                  'OK',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          )
+                  title: Text('Error'),
+                  content: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(msg),
+                  ),
+                  actions: <Widget>[
+                    CupertinoButton(
+                      child: Text(
+                        'OK',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                )
               : AlertDialog(
-            title: Text('Error'),
-            content: Text(msg),
-            elevation: 10.0,
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  'OK',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
+                  title: Text('Error'),
+                  content: Text(msg),
+                  elevation: 10.0,
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text(
+                        'OK',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                );
         });
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Container(
-                height: 200.0,
-                width: width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'LOGIN',
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 600,
-                width: width,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextField(
-                        textCapitalization: TextCapitalization.none,
-                        keyboardType: TextInputType.emailAddress,
-                        autocorrect: false,
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value.trim();
-                          });
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon: Icon(Icons.email),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      TextField(
-                        obscureText: true,
-                        onChanged: (value) {
-                          setState(() {
-                            _password = value.trim();
-                          });
-                        },
-                        decoration: InputDecoration(
-                            hintText: 'Password', prefixIcon: Icon(Icons.lock)),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      FlatButton(
-                          color: Theme.of(context).primaryColor,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 50,
-                            vertical: 10,
-                          ),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 60.0),
+                  child: Container(
+                    height: height * 0.3,
+                    width: width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'LOGIN',
+                          style: TextStyle(
                               fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
                               letterSpacing: 2.0,
-                            ),
-                          ),
-                          onPressed: _login),
-                    ],
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+                Container(
+                  height: height * 0.7,
+                  width: width,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextField(
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.emailAddress,
+                          autocorrect: false,
+                          onChanged: (value) {
+                            setState(() {
+                              _email = value.trim();
+                            });
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        TextField(
+                          obscureText: true,
+                          onChanged: (value) {
+                            setState(() {
+                              _password = value.trim();
+                            });
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Password',
+                              prefixIcon: Icon(Icons.lock)),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        FlatButton(
+                            color: Theme.of(context).primaryColor,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 10,
+                            ),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2.0,
+                              ),
+                            ),
+                            onPressed: _login),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ));
   }
 }

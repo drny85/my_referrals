@@ -172,6 +172,7 @@ class _AddReferralScreenState extends State<AddReferralScreen> {
                     //ZIPCODE field
                     TextFormField(
                       onSaved: (value) => zipcode = int.parse(value),
+                      maxLength: 5,
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value.isEmpty) {
@@ -191,6 +192,7 @@ class _AddReferralScreenState extends State<AddReferralScreen> {
                     TextFormField(
                       onSaved: (value) => phone = value,
                       keyboardType: TextInputType.phone,
+                      maxLength: 12,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter a phone';
@@ -202,8 +204,7 @@ class _AddReferralScreenState extends State<AddReferralScreen> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        labelText: 'Phone',
-                      ),
+                          labelText: 'Phone', helperText: '555-555-5555'),
                     ),
                     //EMAIL field
                     TextFormField(
