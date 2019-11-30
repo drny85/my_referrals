@@ -34,10 +34,10 @@ class Auth extends ChangeNotifier {
         return false;
       }
       final userData =
-      json.decode(prefs.getString('user_data')) as Map<String, Object>;
+          json.decode(prefs.getString('user_data')) as Map<String, Object>;
       _token = userData['token'];
       http.Response response =
-      await http.get('$kUrl/user/me', headers: kHeaders);
+          await http.get('$kUrl/user/me', headers: kHeaders);
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         final user = User.fromJson(decoded);
@@ -62,7 +62,7 @@ class Auth extends ChangeNotifier {
       final body = json.encode({'email': email, 'password': password});
 
       http.Response response =
-      await http.post('$kUrl/user/login', body: body, headers: kHeaders);
+          await http.post('$kUrl/user/login', body: body, headers: kHeaders);
       if (response.statusCode == 200) {
         final userData = json.decode(response.body) as Map<String, dynamic>;
         final token = userData['token'];
