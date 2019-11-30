@@ -12,12 +12,12 @@ class _TodayScreenState extends State<TodayScreen> {
   @override
   void initState() {
     super.initState();
-    _getSales();
+    //_getSales();
   }
 
-  Future<void> _getSales() async {
-    await Provider.of<Referrals>(context, listen: false).getTodaySales();
-  }
+  // Future<void> _getSales() async {
+  //   await Provider.of<Referrals>(context, listen: false).getTodaySales();
+  // }
 
   @override
   Widget build(BuildContext context) {
