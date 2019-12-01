@@ -88,7 +88,7 @@ class _NotesScreenState extends State<NotesScreen> {
             ),
             RaisedButton(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 child: Text(
                   'Save Note',
                   style: TextStyle(
@@ -139,61 +139,75 @@ class _NotesScreenState extends State<NotesScreen> {
                               onPressed: () {
                                 Platform.isIOS
                                     ? showCupertinoDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CupertinoAlertDialog(
-                                        title: Text('Are you sure?'),
-                                        content: Text(
-                                            'Do you want to delete this note?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            child: Text('Ok'),
-                                            onPressed: () async {
-                                              await Provider.of<Notes>(
-                                                  context)
-                                                  .deleteNote(note.id)
-                                                  .then((success) {
-                                                if (success) {
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CupertinoAlertDialog(
+                                            title: Text('Are you sure?'),
+                                            content: Text(
+                                                'Do you want to delete this note?'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: Text('Ok'),
+                                                onPressed: () async {
+                                                  await Provider.of<Notes>(
+                                                          context)
+                                                      .deleteNote(note.id)
+                                                      .then((success) {
+                                                    if (success) {
+                                                      Navigator.pop(context);
+                                                    } else {
+                                                      return;
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text('No'),
+                                                onPressed: () {
                                                   Navigator.pop(context);
-                                                } else {
-                                                  return;
-                                                }
-                                              });
-                                            },
-                                          ),
-                                          FlatButton(
-                                            child: Text('No'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    })
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        })
                                     : showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Are you sure?'),
-                                        content: Text(
-                                            'Do you want to delete this note?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            child: Text('Ok'),
-                                            onPressed: () {
-                                              Provider.of<Notes>(context)
-                                                  .deleteNote(note.id);
-                                            },
-                                          ),
-                                          FlatButton(
-                                            child: Text('No'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    });
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Are you sure?'),
+                                            content: Text(
+                                                'Do you want to delete this note?'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: Text(
+                                                  'OK',
+                                                  style:
+                                                      TextStyle(fontSize: 18.0),
+                                                ),
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                onPressed: () {
+                                                  Provider.of<Notes>(context)
+                                                      .deleteNote(note.id);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text(
+                                                  'NO',
+                                                  style: TextStyle(
+                                                      fontSize: 18.0,
+                                                      color: Colors.black),
+                                                ),
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        });
                               },
                             ),
                           ),

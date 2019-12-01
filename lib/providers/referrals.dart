@@ -21,7 +21,7 @@ class Referrals extends ChangeNotifier {
   Future<void> getReferrals() async {
     try {
       http.Response response =
-      await http.get('$kUrl/referrals', headers: kHeaders);
+          await http.get('$kUrl/referrals', headers: kHeaders);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
@@ -30,6 +30,10 @@ class Referrals extends ChangeNotifier {
           final referral = Referral.fromJson(ref);
           loadedReferrals.add(referral);
         });
+
+        if (response.statusCode >= 400) {
+          throw response.body;
+        }
         _refsCopy = loadedReferrals;
         _referrals = loadedReferrals;
 
@@ -57,10 +61,10 @@ class Referrals extends ChangeNotifier {
       return ref.name.toLowerCase().contains(value.toLowerCase())
           ? ref.name.toLowerCase().contains(value.toLowerCase())
           : ref.address.toLowerCase().contains(value.toLowerCase())
-          ? ref.address.toLowerCase().contains(value.toLowerCase())
-          : ref.apt.toLowerCase().contains(value.toLowerCase())
-          ? ref.apt.toLowerCase().contains(value.toLowerCase())
-          : ref.lastName.toLowerCase().contains(value.toLowerCase());
+              ? ref.address.toLowerCase().contains(value.toLowerCase())
+              : ref.apt.toLowerCase().contains(value.toLowerCase())
+                  ? ref.apt.toLowerCase().contains(value.toLowerCase())
+                  : ref.lastName.toLowerCase().contains(value.toLowerCase());
     }).toList();
 
     notifyListeners();
@@ -109,7 +113,7 @@ class Referrals extends ChangeNotifier {
   Future<void> getReferralById(String id) async {
     try {
       http.Response response =
-      await http.get('$kUrl/detail/$id', headers: kHeaders);
+          await http.get('$kUrl/detail/$id', headers: kHeaders);
 
       if (response.statusCode == 200) {
         final ref = json.decode(response.body);
@@ -130,7 +134,7 @@ class Referrals extends ChangeNotifier {
   Future<bool> deleteReferral(String id) async {
     try {
       http.Response response =
-      await http.delete('$kUrl/referral/delete/$id', headers: kHeaders);
+          await http.delete('$kUrl/referral/delete/$id', headers: kHeaders);
       bool success;
       if (response.statusCode == 200) {
         success = true;
@@ -166,7 +170,7 @@ class Referrals extends ChangeNotifier {
 
       bool success;
       http.Response response =
-      await http.post('$kUrl/add-referral', body: body, headers: kHeaders);
+          await http.post('$kUrl/add-referral', body: body, headers: kHeaders);
       if (response.statusCode == 200) {
         final res = json.decode(response.body);
         print(res);

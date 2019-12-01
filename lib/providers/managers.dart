@@ -14,7 +14,7 @@ class Managers extends ChangeNotifier {
   Future<void> getManagers() async {
     try {
       http.Response response =
-      await http.get('$kUrl/manager/all', headers: kHeaders);
+          await http.get('$kUrl/manager/all', headers: kHeaders);
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         List<Manager> loadedManagers = [];
