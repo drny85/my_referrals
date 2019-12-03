@@ -24,13 +24,13 @@ class Managers extends ChangeNotifier {
           loadedManagers.add(manager);
         }
         _managers = loadedManagers;
-
-        notifyListeners();
       }
 
       if (response.statusCode >= 400) {
         throw response.body;
       }
+
+      notifyListeners();
     } catch (e) {
       print(e);
     }

@@ -1,3 +1,5 @@
+import 'package:fios/screens/managers/managers_list_screen.dart';
+
 import './providers/auth.dart';
 import './providers/managers.dart';
 import './providers/notes.dart';
@@ -72,6 +74,7 @@ class MyApp extends StatelessWidget {
             ProfileScreen.routeName: (context) => ProfileScreen(),
             NotesScreen.routeName: (context) => NotesScreen(),
             AddReferralScreen.routeName: (context) => AddReferralScreen(),
+            ManagersListScreen.routeName: (context) => ManagersListScreen(),
             //EditReferralScreen.routeName: (context) => EditReferralScreen(),
           },
         ),
