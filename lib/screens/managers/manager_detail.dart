@@ -1,3 +1,4 @@
+import 'package:fios/providers/managers.dart';
 import 'package:fios/providers/referees.dart';
 import 'package:fios/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,17 @@ class ManagerDetailScreen extends StatelessWidget {
     if (type == 'referee') {
       await Provider.of<Referees>(context)
           .deleteRefefee(manager.id)
+          .then((success) {
+        if (!success) {
+          return;
+        }
+        Navigator.pop(context);
+      });
+    }
+
+    if (type == 'manager') {
+      await Provider.of<Managers>(context)
+          .deleteManager(manager.id)
           .then((success) {
         if (!success) {
           return;

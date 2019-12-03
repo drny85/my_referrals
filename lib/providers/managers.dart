@@ -65,4 +65,26 @@ class Managers extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> deleteManager(String id) async {
+    try {
+      bool success;
+      http.Response response =
+          await http.delete('$kUrl/manager/delete/$id', headers: kHeaders);
+
+      if (response.statusCode == 200) {
+        success = true;
+        _managers.removeWhere((manager) => manager.id == id);
+        notifyListeners();
+      }
+      if (response.statusCode >= 400) {
+        throw response.body;
+      }
+
+      return success;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }
