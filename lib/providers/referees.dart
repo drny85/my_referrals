@@ -39,4 +39,56 @@ class Referees extends ChangeNotifier {
       print(e);
     }
   }
+
+  Future<bool> addReferee({Referee referee}) async {
+    try {
+      bool success;
+      final body = json.encode({
+        'name': referee.name,
+        'last_name': referee.lastName,
+        'email': referee.email,
+        'phone': referee.phone,
+      });
+      http.Response response = await http.post('$kUrl/referee/add-referee',
+          body: body, headers: kHeaders);
+
+      if (response.statusCode == 200) {
+        success = true;
+        final referee = Referee.fromJson(json.decode(response.body));
+        _referees.add(referee);
+
+        notifyListeners();
+      }
+      if (response.statusCode >= 400) {
+        throw response.body;
+      }
+
+      return success;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteRefefee(String id) async {
+    try {
+      bool success;
+      http.Response response =
+          await http.delete('$kUrl/referee/delete/$id', headers: kHeaders);
+
+      if (response.statusCode == 200) {
+        success = true;
+        _referees.removeWhere((ref) => ref.id == id);
+        notifyListeners();
+      }
+      if (response.statusCode >= 400) {
+        throw response.body;
+      }
+
+      return success;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

@@ -10,11 +10,11 @@ class Manager {
 
   Manager(
       {this.id,
-        @required this.name,
-        @required this.lastName,
-        this.email,
-        this.userId,
-        this.phone});
+      @required this.name,
+      @required this.lastName,
+      this.email,
+      this.userId,
+      this.phone});
 
   factory Manager.fromJson(Map<String, dynamic> json) {
     return Manager(

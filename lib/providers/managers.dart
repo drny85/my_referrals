@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:fios/models/Manager.dart';
+import 'package:fios/models/manager.dart';
 import 'package:fios/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +33,36 @@ class Managers extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<bool> addManager({Manager manager}) async {
+    try {
+      bool success;
+      final body = json.encode({
+        'name': manager.name,
+        'last_name': manager.lastName,
+        'email': manager.email,
+        'phone': manager.phone,
+      });
+      http.Response response = await http.post('$kUrl/manager/add-manager',
+          body: body, headers: kHeaders);
+
+      if (response.statusCode == 200) {
+        success = true;
+        final manager = Manager.fromJson(json.decode(response.body));
+        _managers.add(manager);
+
+        notifyListeners();
+      }
+      if (response.statusCode >= 400) {
+        throw response.body;
+      }
+
+      return success;
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

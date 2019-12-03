@@ -36,8 +36,12 @@ class _ManagersScreenState extends State<ManagersScreen> {
                 children: <Widget>[
                   makeRoundedButton(
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(ManagersListScreen.routeName);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ManagersListScreen('manager'),
+                            ));
                       },
                       child: Text(
                         'See Managers',
@@ -50,7 +54,12 @@ class _ManagersScreenState extends State<ManagersScreen> {
                   ),
                   makeRoundedButton(
                       onTap: () {
-                        print('referees');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ManagersListScreen('referee'),
+                            ));
                       },
                       child: Text(
                         'See Referees',
