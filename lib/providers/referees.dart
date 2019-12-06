@@ -6,6 +6,8 @@ import 'package:fios/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'auth.dart';
+
 class Referees extends ChangeNotifier {
   List<Referee> _referees = [];
 
@@ -18,8 +20,10 @@ class Referees extends ChangeNotifier {
 
   Future<void> getReferees() async {
     try {
-      http.Response response =
-          await http.get('$kUrl/referee/all', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/referee/all', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         List<Referee> loadedReferees = [];
@@ -49,8 +53,11 @@ class Referees extends ChangeNotifier {
         'email': referee.email,
         'phone': referee.phone,
       });
-      http.Response response = await http.post('$kUrl/referee/add-referee',
-          body: body, headers: kHeaders);
+      http.Response response =
+          await http.post('$kUrl/referee/add-referee', body: body, headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         success = true;
@@ -74,7 +81,10 @@ class Referees extends ChangeNotifier {
     try {
       bool success;
       http.Response response =
-          await http.delete('$kUrl/referee/delete/$id', headers: kHeaders);
+          await http.delete('$kUrl/referee/delete/$id', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         success = true;

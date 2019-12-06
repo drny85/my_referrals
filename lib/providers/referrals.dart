@@ -1,9 +1,11 @@
 import 'dart:collection';
 import 'package:fios/models/referral.dart';
 import 'package:fios/utils/constant.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../providers/auth.dart';
 
 class Referrals extends ChangeNotifier {
   List<Referral> _referrals = [];
@@ -20,8 +22,10 @@ class Referrals extends ChangeNotifier {
 
   Future<void> getReferrals() async {
     try {
-      http.Response response =
-          await http.get('$kUrl/referrals', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/referrals', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
@@ -88,7 +92,11 @@ class Referrals extends ChangeNotifier {
       bool success;
       final body = json.encode({'id': referralId, 'email': email});
       http.Response response = await http.post('$kUrl/email/collateral',
-          headers: kHeaders, body: body);
+          headers: {
+            "Content-type": "application/json",
+            "x-auth-token": await Auth.getToken(),
+          },
+          body: body);
 
       if (response.statusCode == 200) {
         success = true;
@@ -112,8 +120,10 @@ class Referrals extends ChangeNotifier {
 
   Future<void> getReferralById(String id) async {
     try {
-      http.Response response =
-          await http.get('$kUrl/detail/$id', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/detail/$id', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         final ref = json.decode(response.body);
@@ -134,7 +144,10 @@ class Referrals extends ChangeNotifier {
   Future<bool> deleteReferral(String id) async {
     try {
       http.Response response =
-          await http.delete('$kUrl/referral/delete/$id', headers: kHeaders);
+          await http.delete('$kUrl/referral/delete/$id', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       bool success;
       if (response.statusCode == 200) {
         success = true;
@@ -170,7 +183,10 @@ class Referrals extends ChangeNotifier {
 
       bool success;
       http.Response response =
-          await http.post('$kUrl/add-referral', body: body, headers: kHeaders);
+          await http.post('$kUrl/add-referral', body: body, headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       if (response.statusCode == 200) {
         final res = json.decode(response.body);
         print(res);

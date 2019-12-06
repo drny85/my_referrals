@@ -78,6 +78,11 @@ class _ManagersListScreenState extends State<ManagersListScreen> {
     }
   }
 
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,6 +166,7 @@ class _ManagersListScreenState extends State<ManagersListScreen> {
                                             height: 12.0,
                                           ),
                                           TextField(
+                                            controller: _nameController,
                                             autofocus: true,
                                             textCapitalization:
                                                 TextCapitalization.words,
@@ -177,6 +183,7 @@ class _ManagersListScreenState extends State<ManagersListScreen> {
                                             height: 8.0,
                                           ),
                                           TextField(
+                                            controller: _lastNameController,
                                             autofocus: true,
                                             textCapitalization:
                                                 TextCapitalization.words,
@@ -193,6 +200,7 @@ class _ManagersListScreenState extends State<ManagersListScreen> {
                                             height: 8.0,
                                           ),
                                           TextField(
+                                            controller: _emailController,
                                             keyboardType:
                                                 TextInputType.emailAddress,
                                             autocorrect: false,
@@ -211,14 +219,31 @@ class _ManagersListScreenState extends State<ManagersListScreen> {
                                             height: 8.0,
                                           ),
                                           TextField(
+                                            controller: _phoneController,
                                             keyboardType: TextInputType.phone,
                                             onChanged: (value) {
                                               setState(() {
                                                 phone = value;
+                                                if (value.length == 3 ||
+                                                    value.length == 7) {
+                                                  _phoneController.text =
+                                                      value + '-';
+                                                }
                                               });
                                             },
                                             decoration: InputDecoration(
                                               hintText: 'Phone',
+                                              suffixIcon: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _phoneController.text =
+                                                          '';
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.clear,
+                                                    color: Colors.grey,
+                                                  )),
                                             ),
                                           ),
                                         ],

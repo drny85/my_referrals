@@ -36,8 +36,10 @@ class Auth extends ChangeNotifier {
       final userData =
           json.decode(prefs.getString('user_data')) as Map<String, Object>;
       _token = userData['token'];
-      http.Response response =
-          await http.get('$kUrl/user/me', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/user/me', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await getToken()
+      });
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         final user = User.fromJson(decoded);
@@ -49,6 +51,7 @@ class Auth extends ChangeNotifier {
 
       notifyListeners();
       print('Auto Login');
+      print('TOKEN $token');
       return true;
     } catch (e) {
       print(e);
@@ -62,7 +65,10 @@ class Auth extends ChangeNotifier {
       final body = json.encode({'email': email, 'password': password});
 
       http.Response response =
-          await http.post('$kUrl/user/login', body: body, headers: kHeaders);
+          await http.post('$kUrl/user/login', body: body, headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await getToken(),
+      });
       if (response.statusCode == 200) {
         final userData = json.decode(response.body) as Map<String, dynamic>;
         final token = userData['token'];
@@ -95,5 +101,14 @@ class Auth extends ChangeNotifier {
     print('loging out');
     print(_token);
     notifyListeners();
+  }
+
+  static Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final userData =
+        json.decode(prefs.getString('user_data')) as Map<String, Object>;
+
+    return userData['token'] ?? '';
   }
 }

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'auth.dart';
+
 class Notes with ChangeNotifier {
   List<Note> _notes = [];
 
@@ -13,8 +15,10 @@ class Notes with ChangeNotifier {
 
   Future<void> getNotes() async {
     try {
-      http.Response response =
-      await http.get('$kUrl/notes/today', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/notes/today', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
@@ -39,8 +43,11 @@ class Notes with ChangeNotifier {
   Future<void> addNote(String note) async {
     try {
       final body = json.encode({'note': note});
-      http.Response response = await http.post('$kUrl/notes/new_note',
-          body: body, headers: kHeaders);
+      http.Response response =
+          await http.post('$kUrl/notes/new_note', body: body, headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         final note = json.decode(response.body);
@@ -61,7 +68,10 @@ class Notes with ChangeNotifier {
     try {
       bool success;
       http.Response response =
-      await http.delete('$kUrl/notes/delete/$noteId', headers: kHeaders);
+          await http.delete('$kUrl/notes/delete/$noteId', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         _notes.removeWhere((note) {

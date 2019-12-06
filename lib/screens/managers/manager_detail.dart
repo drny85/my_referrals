@@ -1,8 +1,9 @@
 import 'package:fios/providers/managers.dart';
 import 'package:fios/providers/referees.dart';
-import 'package:fios/utils/constant.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ManagerDetailScreen extends StatelessWidget {
   final dynamic manager;
@@ -31,6 +32,19 @@ class ManagerDetailScreen extends StatelessWidget {
         }
         Navigator.pop(context);
       });
+    }
+  }
+
+  void _sendEmail() async {
+    final email = 'mailto:${manager.email}';
+    print(email);
+    try {
+      final can = await canLaunch(email);
+      if (can) {
+        await launch(email);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -131,7 +145,9 @@ class ManagerDetailScreen extends StatelessWidget {
                             size: 30.0,
                             color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            
+                          },
                         ),
                       ],
                     ),
@@ -148,16 +164,17 @@ class ManagerDetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Phone: ${manager.phone}',
-                  style: kTextStyleDetails,
+                ListTile(
+                  leading: Icon(Icons.phone),
+                  title: Text(manager.phone),
                 ),
                 SizedBox(
                   height: 12.0,
                 ),
-                Text(
-                  'Email: ${manager.email}',
-                  style: kTextStyleDetails,
+                ListTile(
+                  onTap: _sendEmail,
+                  leading: Icon(Icons.email),
+                  title: Text(manager.email),
                 ),
                 SizedBox(
                   height: 20.0,

@@ -6,6 +6,8 @@ import 'package:fios/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'auth.dart';
+
 class Managers extends ChangeNotifier {
   List<Manager> _managers = [];
 
@@ -13,8 +15,10 @@ class Managers extends ChangeNotifier {
 
   Future<void> getManagers() async {
     try {
-      http.Response response =
-          await http.get('$kUrl/manager/all', headers: kHeaders);
+      http.Response response = await http.get('$kUrl/manager/all', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         List<Manager> loadedManagers = [];
@@ -45,8 +49,11 @@ class Managers extends ChangeNotifier {
         'email': manager.email,
         'phone': manager.phone,
       });
-      http.Response response = await http.post('$kUrl/manager/add-manager',
-          body: body, headers: kHeaders);
+      http.Response response =
+          await http.post('$kUrl/manager/add-manager', body: body, headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         success = true;
@@ -70,7 +77,10 @@ class Managers extends ChangeNotifier {
     try {
       bool success;
       http.Response response =
-          await http.delete('$kUrl/manager/delete/$id', headers: kHeaders);
+          await http.delete('$kUrl/manager/delete/$id', headers: {
+        "Content-type": "application/json",
+        "x-auth-token": await Auth.getToken(),
+      });
 
       if (response.statusCode == 200) {
         success = true;
